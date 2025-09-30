@@ -91,7 +91,8 @@ public class MainActivity extends AppCompatActivity {
     private String evaluate(String expression) {
         String result = MathEval.eval(expression);
         BigDecimal decimal = new BigDecimal(result);
-        return decimal.setScale(2, RoundingMode.HALF_UP).toPlainString();
+        if (decimal.scale() > 5) decimal = decimal.setScale(5, RoundingMode.HALF_UP);
+        return decimal.toPlainString();
     }
 
     /**
