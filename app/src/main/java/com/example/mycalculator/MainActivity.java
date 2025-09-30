@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 
@@ -91,8 +92,7 @@ public class MainActivity extends AppCompatActivity {
     private String evaluate(String expression) {
         String result = MathEval.eval(expression);
         BigDecimal decimal = new BigDecimal(result);
-        if (decimal.scale() > 5) decimal = decimal.setScale(5, RoundingMode.HALF_UP);
-        return decimal.toPlainString();
+        return decimal.round(new MathContext(9)).toString();
     }
 
     /**
