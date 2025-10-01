@@ -1,21 +1,28 @@
 package com.example.mycalculator;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final int DEFAULT_TEXT_COLOUR = 0xFF808080;
+    private static final int RESULT_TEXT_COLOUR = 0xFF3700B3;
 
     /**
      * Flag text for invalid computation
      */
-    private static String ERROR_FLAG = "Error!";
+    private static final String ERROR_FLAG = "Error!";
+
+    /**
+     * Flag variable marking if the last operation was an equals
+     */
+    private static boolean resultFlag = false;
 
     /**
      * List of symbols supported by buttons. Parallel array to symbolButtons.
@@ -54,12 +61,13 @@ public class MainActivity extends AppCompatActivity {
         // Initializes arrays of buttons
         symbolButtons = new Button[symbolButtonIDs.length];
         for (int i = 0; i < symbolButtons.length; i++)
-            symbolButtons[i] = (Button) findViewById(symbolButtonIDs[i]);
+            symbolButtons[i] = findViewById(symbolButtonIDs[i]);
 
         // Initializes other buttons and text view
-        clearButton = (Button) findViewById(R.id.btn_clear);
-        equalsButton = (Button) findViewById(R.id.btn_equals);
-        text_display = (TextView) findViewById(R.id.textview_input_display);
+        clearButton = findViewById(R.id.btn_clear);
+        equalsButton = findViewById(R.id.btn_equals);
+        text_display = findViewById(R.id.textview_input_display);
+        text_display.setTextColor(DEFAULT_TEXT_COLOUR);
 
         setClickListeners();
     }
@@ -72,16 +80,33 @@ public class MainActivity extends AppCompatActivity {
         // Sets the action of symbol buttons to adding the symbol to text box
         for (int i = 0; i < symbolButtons.length; i++) {
             int index = i;
-            symbolButtons[index].setOnClickListener(v -> addSymbol(symbols[index]));
+            symbolButtons[index].setOnClickListener(v -> {
+                text_display.setTextColor(DEFAULT_TEXT_COLOUR);
+                if (resultFlag && isNumericSymbol(index)) clear_display();
+                resultFlag = false;
+
+                addSymbol(symbols[index]);
+            });
         }
 
         // Logic for other buttons
         clearButton.setOnClickListener(v -> clear_display());
         equalsButton.setOnClickListener(v -> {
+            resultFlag = true;
+            text_display.setTextColor(RESULT_TEXT_COLOUR);
             try { text_display.setText(
                     evaluate(text_display.getText().toString()));}
             catch (RuntimeException e) {text_display.setText(ERROR_FLAG);}
         });
+    }
+
+    /**
+     * Checks if the symbol at given index is a numeric symbol (1-9 or '.')
+     * @param symbolIndex the index of symbol to consider
+     * @return true if the symbol at given index is numeric
+     */
+    private boolean isNumericSymbol(int symbolIndex) {
+        return 0 <= symbolIndex && symbolIndex <= 9 || symbolIndex == 14;
     }
 
     /**
