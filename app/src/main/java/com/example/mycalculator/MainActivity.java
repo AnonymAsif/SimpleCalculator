@@ -12,7 +12,8 @@ import java.math.MathContext;
 
 public class MainActivity extends AppCompatActivity {
     private static final int DEFAULT_TEXT_COLOUR = 0xFF808080;
-    private static final int RESULT_TEXT_COLOUR = 0xFF3700B3;
+    private static final int RESULT_TEXT_COLOUR = 0xFF5DBB63;
+    private static final int MAX_PRECISION = 8;
 
     /**
      * Flag text for invalid computation
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
      * List of buttons corresponding to each symbol is symbols
      */
     Button[] symbolButtons;
-    Button equalsButton, clearButton;
+    Button equalsButton, clearButton, backspaceButton;
 
     /**
      * Number display for computation results
@@ -51,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Parallel arrays of symbols and their respective buttons
         symbols = new String[] {
-                "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "."};
+                "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "(", ")", "+", "-", "*", "/"};
 
         // Button IDs for numbers and operations
-        int[] symbolButtonIDs = new int[] {R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3,
-                R.id.btn4, R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9,
-                R.id.btn_plus, R.id.btn_minus, R.id.btn_mult, R.id.btn_div, R.id.btn_dot};
+        int[] symbolButtonIDs = new int[] {R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+                R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btn_dot, R.id.leftBracket,
+                R.id.rightBracket, R.id.btn_plus, R.id.btn_minus, R.id.btn_mult, R.id.btn_div};
 
         // Initializes arrays of buttons
         symbolButtons = new Button[symbolButtonIDs.length];
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         // Initializes other buttons and text view
         clearButton = findViewById(R.id.btn_clear);
         equalsButton = findViewById(R.id.btn_equals);
+        backspaceButton = findViewById(R.id.backspace);
         text_display = findViewById(R.id.textview_input_display);
         text_display.setTextColor(DEFAULT_TEXT_COLOUR);
 
@@ -98,6 +100,15 @@ public class MainActivity extends AppCompatActivity {
                     evaluate(text_display.getText().toString()));}
             catch (RuntimeException e) {text_display.setText(ERROR_FLAG);}
         });
+        backspaceButton.setOnClickListener(v -> {
+            if (resultFlag) {
+                clear_display();
+                resultFlag = false;
+            } else {
+                String text = text_display.getText().toString();
+                text_display.setText(text.substring(0, text.length() - 1));
+            }
+        });
     }
 
     /**
@@ -106,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
      * @return true if the symbol at given index is numeric
      */
     private boolean isNumericSymbol(int symbolIndex) {
-        return 0 <= symbolIndex && symbolIndex <= 9 || symbolIndex == 14;
+        return 0 <= symbolIndex && symbolIndex <= 12;
     }
 
     /**
@@ -117,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     private String evaluate(String expression) {
         String result = MathEval.eval(expression);
         BigDecimal decimal = new BigDecimal(result);
-        return decimal.round(new MathContext(9)).toString();
+        return decimal.round(new MathContext(MAX_PRECISION)).toString();
     }
 
     /**
