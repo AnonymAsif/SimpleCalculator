@@ -13,7 +13,7 @@ import java.math.MathContext;
 public class MainActivity extends AppCompatActivity {
     private static final int DEFAULT_TEXT_COLOUR = 0xFF808080;
     private static final int RESULT_TEXT_COLOUR = 0xFF5DBB63;
-    private static final int MAX_PRECISION = 8;
+    private static final int MAX_PRECISION = 7;
 
     /**
      * Flag text for invalid computation
@@ -128,8 +128,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private String evaluate(String expression) {
         String result = MathEval.eval(expression);
-        BigDecimal decimal = new BigDecimal(result);
-        return decimal.round(new MathContext(MAX_PRECISION)).stripTrailingZeros().toString();
+        BigDecimal decimal = new BigDecimal(result).stripTrailingZeros();
+        if (decimal.precision() - Math.min(0, decimal.scale()) <= MAX_PRECISION + 5)
+            return decimal.toPlainString();
+        return decimal.round(new MathContext(MAX_PRECISION)).toString();
     }
 
     /**
