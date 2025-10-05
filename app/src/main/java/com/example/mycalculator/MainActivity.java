@@ -106,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
                 resultFlag = false;
             } else {
                 String text = text_display.getText().toString();
-                text_display.setText(text.substring(0, text.length() - 1));
+                if (!text.isEmpty())
+                    text_display.setText(text.substring(0, text.length() - 1));
             }
         });
     }
