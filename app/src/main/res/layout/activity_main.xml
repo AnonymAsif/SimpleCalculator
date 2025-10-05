@@ -10,6 +10,9 @@
         android:id="@+id/tableLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -104,19 +107,23 @@
 
             <Button
                 android:id="@+id/btn_clear"
+                android:layout_weight="1"
                 android:text="@string/btn_clear" />
 
             <Button
                 android:id="@+id/btn0"
+                android:layout_weight="1"
                 android:text="@string/btn0" />
 
             <Button
                 android:id="@+id/btn_dot"
+                android:layout_weight="1"
                 android:text="@string/btn_dot" />
 
             <Button
                 android:id="@+id/btn_div"
-                android:text="@string/division"/>
+                android:layout_weight="1"
+                android:text="@string/division" />
         </TableRow>
 
         <TableRow
@@ -127,6 +134,7 @@
                 android:id="@+id/btn_equals"
                 android:layout_weight="1"
                 android:text="@string/equal" />
+
         </TableRow>
     </TableLayout>
 
