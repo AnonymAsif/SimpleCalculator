@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     private String evaluate(String expression) {
         String result = MathEval.eval(expression);
         BigDecimal decimal = new BigDecimal(result);
-        return decimal.round(new MathContext(MAX_PRECISION)).toString();
+        return decimal.round(new MathContext(MAX_PRECISION)).stripTrailingZeros().toString();
     }
 
     /**

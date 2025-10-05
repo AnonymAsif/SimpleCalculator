@@ -12,7 +12,7 @@ public final class MathEval {
             double result = e.evaluate();
             // strip trailing .0 for integers
             if (Math.rint(result) == result) {
-                return String.valueOf((int)result);
+                return String.valueOf(result);
             }
             return String.valueOf(result);
         } catch (Exception ex) {
