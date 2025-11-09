@@ -22,6 +22,7 @@ public class MathEvalTest {
         assertEquals("24.0", MathEval.eval("6*4"));
         assertEquals("42.0", MathEval.eval("6*7"));
         assertEquals("168.0", MathEval.eval("4*42"));
+        assertEquals()
 
 
 
