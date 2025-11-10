@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
      * @param expression The expression string
      * @return The evaluated result
      */
-    private String evaluate(String expression) {
+    public static String evaluate(String expression) {
         String result = MathEval.eval(expression);
         BigDecimal decimal = new BigDecimal(result).stripTrailingZeros();
         if (decimal.precision() - Math.min(0, decimal.scale()) <= MAX_PRECISION + 5)

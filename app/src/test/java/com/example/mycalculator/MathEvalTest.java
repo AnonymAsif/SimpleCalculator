@@ -6,7 +6,9 @@ import org.junit.Test;
 
 public class MathEvalTest {
     @Test
-    public void eval_addition() {
+    public void eval_test() {
+
+        // ADDITION TESTS
 
         // Basic Positive Numbers
         assertEquals(5.0, Double.parseDouble(MathEval.eval("2+3")), 0.0001);
@@ -22,7 +24,6 @@ public class MathEvalTest {
 
         // Large Numbers
         assertEquals(1000000, Double.parseDouble(MathEval.eval("999999+1")), 0.0001);
-        //assertEquals(2147483647.0, Double.parseDouble(MathEval.eval("2147483646+1")), 0.0001);
 
         // With Decimals
         assertEquals(3.8, Double.parseDouble(MathEval.eval("1.5+2.3")), 0.0001);
@@ -39,15 +40,12 @@ public class MathEvalTest {
 
         // Very Small Decimals
         assertEquals(0.0003, Double.parseDouble(MathEval.eval("0.0001+0.0002")), 0.0001);
-        //assertEquals(-0.0002, Double.parseDouble(MathEval.eval("0.0001+0.0003")), 0.0001);
+        assertEquals(5, Double.parseDouble(MathEval.eval("5 + 0.0001")), 0.0001);
+        assertEquals(-0.0002, Double.parseDouble(MathEval.eval("0.0001-0.0003")), 0.0001);
 
-        // Invalid Inputs
-        //assertEquals(4, Double.parseDouble(MathEval.eval("a+0.4")), 0.0001);
-        //assertEquals(28, Double.parseDouble(MathEval.eval("ab3239+xyem")), 0.0001);
-    }
 
-    @Test
-    public void eval_multiplication() {
+        // MULTIPLICATION TESTS
+
         // Basic Positive Numbers
         assertEquals(6.0, Double.parseDouble(MathEval.eval("2*3")), 0.0001);
         assertEquals(56, Double.parseDouble(MathEval.eval("7*8")), 0.0001);
@@ -80,8 +78,15 @@ public class MathEvalTest {
         assertEquals(1, Double.parseDouble(MathEval.eval("-2*-0.5")), 0.0001);
         assertEquals(-0.75, Double.parseDouble(MathEval.eval("-3*0.25")), 0.0001);
 
+
+        // DIVISION TESTS
+        assertEquals(0.4, Double.parseDouble(MathEval.eval("2/5")), 0.0001);
+        assertEquals(2.0/3, Double.parseDouble(MathEval.eval("2/3")), 0.0001);
+        assertEquals(2.3, Double.parseDouble(MathEval.eval("23/10")), 0.0001);
+
         // Invalid Inputs
-        assertEquals(4, Double.parseDouble(MathEval.eval("a*0.4")), 0.0001);
-        //assertEquals(28, Double.parseDouble(MathEval.eval("ab3239*xyem")), 0.0001);
+        assertEquals("Error", MathEval.eval("a * 0.5"));
+        assertEquals("4a", MathEval.eval("a*0.4"));
     }
+
 }

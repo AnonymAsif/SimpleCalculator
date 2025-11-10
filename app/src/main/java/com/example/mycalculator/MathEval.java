@@ -4,7 +4,7 @@ import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 public final class MathEval {
-    public MathEval() {}
+    private MathEval() {}
 
     public static String eval(String expr) {
         try {
